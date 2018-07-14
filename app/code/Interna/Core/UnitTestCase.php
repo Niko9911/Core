@@ -9,8 +9,6 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
-
-
 namespace Interna\Core;
 
 if (!(\PHP_VERSION_ID >= 70200)) {
@@ -24,13 +22,11 @@ if (!\extension_loaded('phalcon')
     throw new \RuntimeException('Phalcon is required extension. (At least version 3.4.0).');
 }
 
-
 use Interna\Core\CommandBus\CommandBus;
 use Interna\Core\CommandBus\CommandBusInterface;
 use Interna\Core\CommandBus\Locator\Handler\ConfigLocator;
 use Phalcon\Di;
 use PHPUnit\Framework\IncompleteTestError;
-
 
 abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
 {
