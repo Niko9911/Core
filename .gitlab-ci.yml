@@ -20,6 +20,7 @@ cache:
 
 before_script:
   - bin/ci
+  - composer install
 
 php:
   stage: test
