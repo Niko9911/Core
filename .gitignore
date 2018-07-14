@@ -1,0 +1,21 @@
+# Please do not use this ignore file to define platform specific files.
+# For these purposes create a global .gitignore file, which is a list of rules
+# for ignoring files in every Git repository on your computer.
+# https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
+# Phalcon Developer Tools
+application/.phalcon/migration-version
+
+# Common ignores.
+composer.lock
+package-lock.json
+.php_cs.cache
+vendor
+node_modules
+/.idea
+!manifest.json
+
+var/log/
+!var/log/.gitkeep
+
+var/cache
+!var/cache/.gitkeep

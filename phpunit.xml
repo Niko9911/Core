@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.1/phpunit.xsd"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         cacheTokens="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         printerClass="PHPUnit\TextUI\ResultPrinter"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         stopOnRisky="false"
+         timeoutForSmallTests="10"
+         timeoutForMediumTests="30"
+         timeoutForLargeTests="60"
+         verbose="true"
+         bootstrap="app/code/Interna/Core/UnitTestCase.php"
+>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <server name="KERNEL_DIR" value="app/"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="Unit_Tests">
+            <directory phpVersion="7.2.0" phpVersionOperator=">=" suffix="Test.php">app/code/Interna/*/Tests/Unit
+            </directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">app/code/*/*/</directory>
+            <exclude>
+                <!-- Common excludes -->
+                <directory suffix="Controller.php">app/code/*/*/Controllers</directory>
+                <directory suffix=".php">app/code/*/*/etc</directory>
+                <directory suffix=".php">app/code/*/*/Tests</directory>
+
+                <!-- Common Excluded Files -->
+                <file>public/index.php</file>
+                <file>app/code/Interna/Core/UnitTestCase.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+</phpunit>

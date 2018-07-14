@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="">
+    <database>
+        <connection>
+            <host></host>
+            <port></port>
+            <username></username>
+            <password></password>
+            <dbname></dbname>
+            <adapter>mysql</adapter>
+            <active>1</active>
+        </connection>
+    </database>
+    <cache>
+        <connection>
+            <host></host>
+            <port></port>
+            <dbname></dbname>
+            <password></password>
+        </connection>
+    </cache>
+</config>

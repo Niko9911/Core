@@ -1,0 +1,27 @@
+{
+    "name": "interna/core",
+    "description": "Interna — Club Management",
+    "license": "AGPLv3",
+    "type": "project",
+    "homepage": "https://ironlions.fi/",
+    "authors": [
+        {
+            "name": "Niko Granö",
+            "email": "niko@ironlions.fi",
+            "homepage": "https://ironlions.fi"
+        }
+    ],
+    "extra": {
+        "phalcon-project-path": "./",
+        "phalcon-cache-path": "./var/cache",
+        "phalcon-logs-path": "./var/log"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7",
+        "friendsofphp/php-cs-fixer": "^2.11"
+    },
+    "require": {
+        "filp/whoops": "^2.2",
+        "phalcon/incubator": "^3.4"
+    }
+}
