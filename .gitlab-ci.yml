@@ -11,8 +11,8 @@ services:
     alias: cache
 
 variables:
-  MYSQL_ALLOW_EMPTY_PASSWORD: true
-  GET_SOURCES_ATTEMPTS: 2
+  MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  GET_SOURCES_ATTEMPTS: "2"
 
 cache:
   paths:
@@ -21,9 +21,7 @@ cache:
 before_script:
   - bin/ci
 
-# Run our tests
 php:
   stage: test
-  before_script:
   script:
   - phpunit --coverage-text --colors=never
