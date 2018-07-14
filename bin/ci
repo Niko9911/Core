@@ -38,24 +38,17 @@ apt-get update && apt-get install -yq --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install \
-      zip bz2 \
-      pdo_mysql pdo_pgsql mysqli \
-      opcache \
-      gettext \
+      pdo_mysql mysqli \
       bcmath sodium \
-      curl soap \
-    && pecl install yaml-2.0.2 \
+      curl \
     && pecl install redis-4.0.1 \
     && pecl install xdebug-2.6.0 \
-    && docker-php-ext-enable redis xdebug yaml opcache soap bz2
+    && docker-php-ext-enable redis xdebug
 curl -LJO https://github.com/phalcon/cphalcon/archive/master.zip \
     && unzip cphalcon-master.zip \
  	&& cd cphalcon-master/build \
  	&& ./install \
 	&& echo 'extension="phalcon.so"' > /usr/local/etc/php/conf.d/phalcon.ini
-usermod --non-unique --uid 1000 www-data
-groupmod -g 1000 www-data
-a2enmod rewrite
 apt-get autoremove -y && apt-get clean -y
 wget https://phar.phpunit.de/phpunit.phar \
     && chmod +x phpunit.phar \

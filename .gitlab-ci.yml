@@ -1,4 +1,4 @@
-image: php:7.2-apache
+image: php:7.2
 
 stages:
   - test
@@ -20,7 +20,7 @@ cache:
 
 before_script:
   - bin/ci
-  - composer install
+  - composer install --quiet
 
 php:
   stage: test
