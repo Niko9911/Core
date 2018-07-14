@@ -25,4 +25,4 @@ before_script:
 php:
   stage: test
   script:
-  - phpunit --coverage-text --colors=never
+  - phpunit --configuration ./phpunit.xml --coverage-text --colors=never
