@@ -193,3 +193,8 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         }
     }
 }
+
+
+
+
+// then fetch and close the statement

@@ -21,6 +21,8 @@ cache:
 before_script:
   - bin/ci
   - composer install --quiet
+  - chmod 777 var/cache
+  - chmod 777 var/log
 
 php:
   stage: test
