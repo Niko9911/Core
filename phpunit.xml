@@ -49,6 +49,11 @@
                 <!-- Common Excluded Files -->
                 <file>public/index.php</file>
                 <file>app/code/Interna/Core/UnitTestCase.php</file>
+                <file>app/code/Interna/Core/Autoloader.php</file>
+                <file>app/code/Interna/Core/Checks.php</file>
+                <file>app/code/Interna/Core/Request.php</file>
+                <file>app/code/Interna/Core/Services.php</file>
+                <file>app/code/Interna/Core/Config.php</file>
             </exclude>
         </whitelist>
     </filter>
