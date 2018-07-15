@@ -10,13 +10,12 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
 
-namespace Core\Interna\CommandBus\Exception;
+namespace Interna\Core\CommandBus\Exception;
 
 final class HandlerMustHaveHandleMethodException extends \Exception
 {
     /**
      * @param string $commandHandlerClassName
-     *
      * @return HandlerMustHaveHandleMethodException
      */
     public static function byClassName(string $commandHandlerClassName): self

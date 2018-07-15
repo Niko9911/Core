@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Interna\Core\CommandBus;
 
-use Core\Interna\CommandBus\Exception\HandlerMustHaveHandleMethodException;
+use Interna\Core\CommandBus\Exception\HandlerMustHaveHandleMethodException;
 use Interna\Core\CommandBus\Locator\Handler\HandlerLocator;
 
 final class CommandBus implements CommandBusInterface

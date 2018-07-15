@@ -51,7 +51,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         parent::__construct($name, $data, $dataName);
         $this->localDI = Di::getDefault();
         $this->xdebug();
-        $this->define();
+        \defined('RUNTIME') ?: $this->define();
         $this->construct();
         $this->loadAppConfig();
         $this->loadModuleConfig();
@@ -86,14 +86,15 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         \define('VARDIR', BASE.DS.'var');
         \define('CACHE', VARDIR.DS.'cache');
         \define('LOG', VARDIR.DS.'log');
+
+        require CODE.DS.'Interna'.DS.'Core'.DS.'Config.php';
+        require CODE.DS.'Interna'.DS.'Core'.DS.'Autoloader.php';
+        include BASE.DS.'vendor'.DS.'autoload.php';
     }
 
 
     private function construct(): void
     {
-        require CODE.DS.'Interna'.DS.'Core'.DS.'Config.php';
-        require CODE.DS.'Interna'.DS.'Core'.DS.'Autoloader.php';
-        include BASE.DS.'vendor'.DS.'autoload.php';
         $this->localDI = new \Phalcon\DI\FactoryDefault();
         $this->localConfig = new Config(CODE.DS.'System'.DS.'Phalcon');
         $this->localDI->set('log', function () {
@@ -155,7 +156,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
     private function warmUp(): void
     {
         Autoloader::autoload($this->localConfig);
-        Services::config($this->localConfig->export());
+        Services::config($this->localConfig->export(), false, $this->localDI);
         Services::db((array)$this->localDI->get('config')->database->connection, $this->localDI);
         Checks::isWritableArray([CACHE, LOG]);
     }

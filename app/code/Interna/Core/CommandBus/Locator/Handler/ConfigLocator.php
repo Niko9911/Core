@@ -187,7 +187,7 @@ final class ConfigLocator extends Component implements HandlerLocator
                         $arrayElement['type'],
                         'array' === $arrayElement['type'] ? $arrayElement['items'] : $arrayElement['value']
                     );
-                }, $value);
+                }, (array)$value);
             default:
                 return null;
         }
