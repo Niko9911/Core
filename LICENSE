@@ -2,25 +2,46 @@
  *                          NOTICE OF LICENSE                            *
  *************************************************************************
  *                                                                       *
- *  This source code is released under commercial license by Iron Lions. *
+ *  This source code is released under commercial license by Iron Lions  *
+ *        Free of charge use is allowed to non-commercial usage          *
  *           Copyright (c) Iron Lions (https://ironlions.fi)             *
+ *           Copyright (c) Niko Granö (https://granö.fi)                 *
  *                                                                       *
  *************************************************************************
- * This software is furnished under a license and may be used and copied *
- * only  in  accordance  with  the  terms  of such  license and with the *
- * inclusion of the above copyright notice.  This software  or any other *
- * copies thereof may not be provided or otherwise made available to any *
- * other person.  No title to and  ownership of the  software is  hereby *
- * transferred.                                                          *
+ * Full license is provided online. Please see following Links:          *
  *                                                                       *
- * You may not reverse  engineer, decompile, defeat  license  encryption *
- * mechanisms, or  disassemble this software product or software product *
- * license.  Iron Lions (Owner) may terminate  this license if you don't *
- * comply with any of the terms and conditions set forth in our end user *
- * license agreement (EULA).  In such event,  licensee  agrees to return *
- * licensor  or destroy  all copies of software  upon termination of the *
- * license.                                                              *
+ * FINNISH (Accepted): https://eupl.eu/1.2/fi/  24.08.2018   HELSINKI    *
+ * BG: https://eupl.eu/1.2/fi/   (Translation)  24.08.2018   HELSINKI    *
+ * CS: https://eupl.eu/1.2/cs/   (Translation)  24.08.2018   HELSINKI    *
+ * DA: https://eupl.eu/1.2/da/   (Translation)  24.08.2018   HELSINKI    *
+ * DE: https://eupl.eu/1.2/de/   (Translation)  24.08.2018   HELSINKI    *
+ * ET: https://eupl.eu/1.2/et/   (Translation)  24.08.2018   HELSINKI    *
+ * EL: https://eupl.eu/1.2/el/   (Translation)  24.08.2018   HELSINKI    *
+ * ES: https://eupl.eu/1.2/es/   (Translation)  24.08.2018   HELSINKI    *
+ * FR: https://eupl.eu/1.2/fr/   (Translation)  24.08.2018   HELSINKI    *
+ * IT: https://eupl.eu/1.2/it/   (Translation)  24.08.2018   HELSINKI    *
+ * LV: https://eupl.eu/1.2/lv/   (Translation)  24.08.2018   HELSINKI    *
+ * LT: https://eupl.eu/1.2/lt/   (Translation)  24.08.2018   HELSINKI    *
+ * HU: https://eupl.eu/1.2/hu/   (Translation)  24.08.2018   HELSINKI    *
+ * MT: https://eupl.eu/1.2/mt/   (Translation)  24.08.2018   HELSINKI    *
+ * NL: https://eupl.eu/1.2/nl/   (Translation)  24.08.2018   HELSINKI    *
+ * PL: https://eupl.eu/1.2/pl/   (Translation)  24.08.2018   HELSINKI    *
+ * PT: https://eupl.eu/1.2/pt/   (Translation)  24.08.2018   HELSINKI    *
+ * RO: https://eupl.eu/1.2/ro/   (Translation)  24.08.2018   HELSINKI    *
+ * SK: https://eupl.eu/1.2/sk/   (Translation)  24.08.2018   HELSINKI    *
+ * SL: https://eupl.eu/1.2/sl/   (Translation)  24.08.2018   HELSINKI    *
+ * SV: https://eupl.eu/1.2/sv/   (Translation)  24.08.2018   HELSINKI    *
+ * HR: https://eupl.eu/1.2/hr/   (Translation)  24.08.2018   HELSINKI    *
+ * ET: https://eupl.eu/1.2/et/   (Translation)  24.08.2018   HELSINKI    *
+ * EL: https://eupl.eu/1.2/el/   (Translation)  24.08.2018   HELSINKI    *
  *                                                                       *
- * Please  email  support@ironlions.fi for  the  full  End  User License *
- * Agreement. Please include your order id also into the email.          *
+ * Aditional terms to licenses are following:                            *
+ *                                                                       *
+ * The  software  is  provided "as is",  without warranty  of  any kind, *
+ * express  or implied  including  but not  limited  to  warranties  of  *
+ * merchantability fitness for a particular purpose and noninfringement. *
+ * In no event shall the authors or  copyright holders be liable for any *
+ * claim, damage or  other liability, whether in an action  of contract, *
+ * tort or  otherwise, arising from   out of or in  connection with  the *
+ * software  or t he use  or other  dealing  in the  software  provided. *
  *************************************************************************
