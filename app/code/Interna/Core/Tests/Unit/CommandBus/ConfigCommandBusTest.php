@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Interna Core — PHP Framework on Phalcon — NOTICE OF LICENSE
+ * This source file is released under EUPL 1.2 license by copyright holders.
+ * Please see LICENSE file for more specific information about terms.
+ *
+ * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
+ * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
+ */
+
 namespace Interna\Core\Tests\Unit\CommandBus;
 
 use Interna\Core\CommandBus\CommandBus;
@@ -13,7 +24,6 @@ use Interna\Core\Tests\Unit\CommandBus\Helpers\CommandHandler;
 use Interna\Core\Tests\Unit\CommandBus\Helpers\CommandHandlerMissing;
 use Interna\Core\Tests\Unit\CommandBus\Helpers\CommandHandlerWithDep;
 use Interna\Core\Tests\Unit\CommandBus\Helpers\Dependency;
-use Interna\Core\Tests\Unit\CommandBus\Helpers\DependencyCannotBeConstructed;
 use Interna\Core\UnitTestCase;
 use Phalcon\Config;
 
@@ -30,16 +40,13 @@ final class ConfigCommandBusTest extends UnitTestCase
     {
         $config = new Config(
             [
-                'bus' =>
-                [
-                    'test_success' =>
-                    [
-                        '@attributes' =>
-                            [
-                                'command' => Command::class
-                            ]
-                    ]
-                ]
+                'bus' => [
+                    'test_success' => [
+                        '@attributes' => [
+                                'command' => Command::class,
+                            ],
+                    ],
+                ],
             ]
         );
 
@@ -48,7 +55,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 
@@ -59,17 +66,14 @@ final class ConfigCommandBusTest extends UnitTestCase
     {
         $config = new Config(
             [
-                'bus' =>
-                    [
-                        'test_success' =>
-                            [
-                                '@attributes' =>
-                                    [
+                'bus' => [
+                        'test_success' => [
+                                '@attributes' => [
                                         'command' => Command::class,
                                         'handler' => CommandHandler::class,
-                                    ]
-                            ]
-                    ]
+                                    ],
+                            ],
+                    ],
             ]
         );
 
@@ -78,7 +82,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 
@@ -89,63 +93,50 @@ final class ConfigCommandBusTest extends UnitTestCase
     {
         $config = new Config(
             [
-                'bus' =>
-                    [
-                        'test_success' =>
-                            [
-                                '@attributes' =>
-                                    [
+                'bus' => [
+                        'test_success' => [
+                                '@attributes' => [
                                         'command' => Command::class,
                                         'handler' => CommandHandlerWithDep::class,
                                     ],
-                                'dependencies' =>
-                                [
+                                'dependencies' => [
                                     'dep_class' => Dependency::class,
-                                    'dep_object'=>
-                                    [
-                                        'type' => 'object',
+                                    'dep_object'=> [
+                                        'type'  => 'object',
                                         'value' => (object)['test'=>123],
                                     ],
-                                    'dep_int'=>
-                                        [
-                                            'type' => 'int',
+                                    'dep_int'=> [
+                                            'type'  => 'int',
                                             'value' => 123,
                                         ],
-                                    'dep_float'=>
-                                        [
-                                            'type' => 'float',
+                                    'dep_float'=> [
+                                            'type'  => 'float',
                                             'value' => 123.45,
                                         ],
-                                    'dep_string'=>
-                                        [
-                                            'type' => 'string',
+                                    'dep_string'=> [
+                                            'type'  => 'string',
                                             'value' => 'abc',
                                         ],
-                                    'dep_array'=>
-                                        [
-                                            'type' => 'array',
-                                            'items' =>
-                                            [
-                                                'abc' =>
-                                                [
+                                    'dep_array'=> [
+                                            'type'  => 'array',
+                                            'items' => [
+                                                'abc' => [
                                                     'type' => 'string',
-                                                    'value'=> 'abc'
+                                                    'value'=> 'abc',
                                                 ],
-                                                'def' =>
-                                                [
+                                                'def' => [
                                                     'type' => 'int',
-                                                    'value'=> 123
+                                                    'value'=> 123,
                                                 ],
-                                            ]
+                                            ],
                                         ],
-                                    'dep_null' =>
-                                    [
+                                    'dep_null' => [
                                         'type' => 'abc',
-                                        'value'=> '123'
-                                    ]
-                                ]
-                            ]
-                    ]
+                                        'value'=> '123',
+                                    ],
+                                ],
+                            ],
+                    ],
             ]
         );
 
@@ -154,7 +145,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 
@@ -166,63 +157,50 @@ final class ConfigCommandBusTest extends UnitTestCase
         $this->expectException(ClassCannotBeConstructedException::class);
         $config = new Config(
             [
-                'bus' =>
-                    [
-                        'test_success' =>
-                            [
-                                '@attributes' =>
-                                    [
+                'bus' => [
+                        'test_success' => [
+                                '@attributes' => [
                                         'command' => Command::class,
                                         'handler' => CommandHandlerWithDep::class,
                                     ],
-                                'dependencies' =>
-                                    [
+                                'dependencies' => [
                                         'dep_class' => Dependency::class,
-                                        'dep_object'=>
-                                            [
-                                                'type' => 'object',
+                                        'dep_object'=> [
+                                                'type'  => 'object',
                                                 'value' => (object)['test'=>123],
                                             ],
-                                        'dep_int'=>
-                                            [
-                                                'type' => 'int',
+                                        'dep_int'=> [
+                                                'type'  => 'int',
                                                 'value' => 123,
                                             ],
-                                        'dep_float'=>
-                                            [
-                                                'type' => 'float',
+                                        'dep_float'=> [
+                                                'type'  => 'float',
                                                 'value' => 123.45,
                                             ],
-                                        'dep_string'=>
-                                            [
-                                                'type' => 'string',
+                                        'dep_string'=> [
+                                                'type'  => 'string',
                                                 'value' => 'abc',
                                             ],
-                                        'dep_array'=>
-                                            [
-                                                'type' => 'array',
-                                                'items' =>
-                                                    [
-                                                        'abc' =>
-                                                            [
+                                        'dep_array'=> [
+                                                'type'  => 'array',
+                                                'items' => [
+                                                        'abc' => [
                                                                 'type' => 'string',
-                                                                'value'=> 'abc'
+                                                                'value'=> 'abc',
                                                             ],
-                                                        'def' =>
-                                                            [
+                                                        'def' => [
                                                                 'type' => 'int',
-                                                                'value'=> [] // <- Invalid
+                                                                'value'=> [], // <- Invalid
                                                             ],
-                                                    ]
+                                                    ],
                                             ],
-                                        'dep_null' =>
-                                            [
+                                        'dep_null' => [
                                                 'type' => 'abc',
-                                                'value'=> '123'
-                                            ]
-                                    ]
-                            ]
-                    ]
+                                                'value'=> '123',
+                                            ],
+                                    ],
+                            ],
+                    ],
             ]
         );
 
@@ -231,7 +209,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 
@@ -251,7 +229,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 
@@ -263,17 +241,14 @@ final class ConfigCommandBusTest extends UnitTestCase
         $this->expectException(CommandHandlerNotExistException::class);
         $config = new Config(
             [
-                'bus' =>
-                    [
-                        'test_success' =>
-                            [
-                                '@attributes' =>
-                                    [
+                'bus' => [
+                        'test_success' => [
+                                '@attributes' => [
                                         'command' => 'SomeNotExistingCommand',
                                         'handler' => CommandHandler::class,
-                                    ]
-                            ]
-                    ]
+                                    ],
+                            ],
+                    ],
             ]
         );
 
@@ -282,7 +257,7 @@ final class ConfigCommandBusTest extends UnitTestCase
         $commandBus->handle(new Command(
             self::INT,
             self::STRING,
-            new \DateTimeImmutable(strftime(self::DATE))
+            new \DateTimeImmutable(\strftime(self::DATE))
         ));
     }
 }

@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Interna — Club Management — NOTICE OF LICENSE
- * This source file is released under commercial license by Iron Lions.
+ * Interna Core — PHP Framework on Phalcon — NOTICE OF LICENSE
+ * This source file is released under EUPL 1.2 license by copyright holders.
+ * Please see LICENSE file for more specific information about terms.
  *
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
@@ -67,19 +68,26 @@ final class index extends \Phalcon\Mvc\User\Component
                 $this->handleModuleConfig();
             }
             $this->warmUp();
+            $this->registerDefines();
             $this->registerModules();
             $this->registerRoutes();
             $this->registerCommandBus();
             $this->cacheConfigs();
             $this->run();
         } catch (\Throwable $e) {
-            /** @var \Phalcon\Logger\Multiple $log */
-            $log = $this->localDI->get('log');
-            $log->critical((string)$e);
-            if (self::DEBUG) {
-                $whoops = new \Whoops\Run();
-                $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-                $whoops->handleException($e);
+            /* @noinspection DegradedSwitchInspection */
+            switch ($e) {
+                case 'Service \'view\' wasn\'t found in the dependency injection container' === $e->getMessage():
+                    try {
+                        throw new \Interna\Core\Exception\UnhandledNotFoundException("You're missing probably
+                    'view' service from DI or you're missing 404 handler when no routes are matched.");
+                    } catch (Throwable $exception) {
+                        $this->handleException($exception);
+                    }
+                    break;
+                default:
+                    $this->handleException($e);
+                    break;
             }
         }
     }
@@ -142,8 +150,11 @@ final class index extends \Phalcon\Mvc\User\Component
 
     private function construct(): void
     {
+        /** @noinspection PhpIncludeInspection */
         require CODE.DS.'Interna'.DS.'Core'.DS.'Config.php';
+        /** @noinspection PhpIncludeInspection */
         require CODE.DS.'Interna'.DS.'Core'.DS.'Autoloader.php';
+        /** @noinspection PhpIncludeInspection */
         include BASE.DS.'vendor'.DS.'autoload.php';
         $this->localDI = new Phalcon\DI\FactoryDefault();
         $this->config = new Interna\Core\Config(CODE.DS.'System'.DS.'Phalcon');
@@ -160,6 +171,7 @@ final class index extends \Phalcon\Mvc\User\Component
     {
         \file_exists(ETC.DS.'config.xml') ? $this->config->addXml(ETC.DS.'config.xml') : null;
         \file_exists(ETC.DS.'local.xml') ? $this->config->addXml(ETC.DS.'local.xml') : null;
+        \file_exists(ETC.DS.'define.xml') ? $this->config->addXml(ETC.DS.'define.xml') : null;
     }
 
     private function loadModuleConfig(): void
@@ -172,6 +184,9 @@ final class index extends \Phalcon\Mvc\User\Component
         unset($files);
     }
 
+    /**
+     * @throws \Interna\Core\Exception\ModuleIsNotPresentInPathException
+     */
     private function handleModuleConfig(): void
     {
         $conf = $this->config->export('modules');
@@ -187,9 +202,18 @@ final class index extends \Phalcon\Mvc\User\Component
                 } else { // Without Prefix.
                     $autoload[\str_replace('_', '\\', $name)] = CODE.DS.$modName;
                 }
-
                 if (isset($values['@attributes']['type']) && 'module' === \mb_strtolower($values['@attributes']['type'])) {
                     $register['module'][$name] = CODE.DS.$modName;
+                    if (!\file_exists($register['module'][$name])) {
+                        $path = $register['module'][$name];
+                        $exceptionPath = CODE.DS.'Interna'.DS.'Core'.DS.'Exception'.DS;
+                        /** @noinspection PhpIncludeInspection */
+                        require_once $exceptionPath.'Exception.php';
+                        require_once $exceptionPath.'ModuleIsNotPresentInPathException.php';
+                        throw new \Interna\Core\Exception\ModuleIsNotPresentInPathException(
+                            "Module $name is not found from path $path!"
+                        );
+                    }
                     /** @noinspection OneTimeUseVariablesInspection */
                     $files = \glob(CODE.DS.$modName.DS.'etc'.DS.'*.xml');
                     foreach ($files as $file) {
@@ -219,6 +243,7 @@ final class index extends \Phalcon\Mvc\User\Component
         $mods = $this->di->get('config')->register->module;
         if (null !== $mods) {
             foreach ($this->di->get('config')->register->module as $name => $path) {
+                \define(\mb_strtoupper($name), $path);
                 $modules = $this->di->get('config')->modules->$name->module;
                 $namespace = \str_replace('_', '\\', $name);
                 if (\is_object($modules)) {
@@ -250,6 +275,7 @@ final class index extends \Phalcon\Mvc\User\Component
             foreach ($this->di->get('config')->register->module as $name => $path) {
                 $routers = $this->di->get('config')->modules->$name->router;
                 $namespace = \str_replace('_', '\\', $name);
+
                 if (\is_object($routers)) {
                     foreach ($routers as $router) {
                         $register[] = $namespace.'\Routes\\'.$router;
@@ -259,12 +285,13 @@ final class index extends \Phalcon\Mvc\User\Component
                 }
                 unset($namespace, $name, $path, $router, $routers);
             }
+
             \Interna\Core\Services::router(
-                null,
+                \defined('ROUTER_DEFAULT_MODULE') ? ROUTER_DEFAULT_MODULE : null,
                 $register,
-                null,
+                \defined('ROUTER_DEFAULT_NOT_FOUND') ? ROUTER_DEFAULT_NOT_FOUND : null,
                 false,
-                true
+                \defined('ROUTER_REMOVE_EXTRA_SLASHES') ? (bool)ROUTER_REMOVE_EXTRA_SLASHES : true
             );
         }
     }
@@ -277,6 +304,31 @@ final class index extends \Phalcon\Mvc\User\Component
                 new \Interna\Core\CommandBus\Locator\Handler\ConfigLocator($commandBus)
             );
         });
+    }
+
+    private function registerDefines(): void
+    {
+        $defines = $this->di->get('config')->define;
+        unset($defines->comment);
+        foreach ($defines as $key => $value) {
+            if ($value instanceof \Phalcon\Config) {
+                \define($key, (array)$value);
+            } else {
+                \define($key, $value);
+            }
+        }
+    }
+
+    private function handleException(Throwable $throwable): void
+    {
+        /** @var \Phalcon\Logger\Multiple $log */
+        $log = $this->localDI->get('log');
+        $log->critical((string)$throwable);
+        if (self::DEBUG) {
+            $whoops = new \Whoops\Run();
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+            $whoops->handleException($throwable);
+        }
     }
 
     private function run(): void

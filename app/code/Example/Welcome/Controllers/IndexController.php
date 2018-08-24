@@ -11,14 +11,19 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
 
-namespace Interna\Core\Tests\Unit\CommandBus\Helpers;
+namespace Example\Welcome\Controllers;
 
-final class Dependency
+use Interna\Core\Mvc\AbstractController;
+
+final class IndexController extends AbstractController
 {
-    public const STRING = 'abc';
-
-    public function getString(): string
+    public function indexAction(): void
     {
-        return self::STRING;
+    }
+
+    public function notFoundAction(): void
+    {
+        \http_response_code(404);
+        $this->view->pick('index/notFound');
     }
 }

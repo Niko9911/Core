@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="">
+    <define>
+        <!-- App Specific Section -->
+        <APP_NAME>Interna</APP_NAME>
+        <APP_VERSION>1.0.0</APP_VERSION>
+
+        <!-- Router Section -->
+        <ROUTER_DEFAULT_MODULE>Example_Welcome_ExampleModule</ROUTER_DEFAULT_MODULE>
+        <ROUTER_DEFAULT_NOT_FOUND>
+            <controller>Index</controller>
+            <action>notFound</action>
+        </ROUTER_DEFAULT_NOT_FOUND>
+        <ROUTER_REMOVE_EXTRA_SLASHES>true</ROUTER_REMOVE_EXTRA_SLASHES>
+    </define>
+</config>

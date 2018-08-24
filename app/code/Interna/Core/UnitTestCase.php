@@ -3,12 +3,14 @@
 declare(strict_types=1);
 
 /**
- * Interna — Club Management — NOTICE OF LICENSE
- * This source file is released under commercial license by Iron Lions.
+ * Interna Core — PHP Framework on Phalcon — NOTICE OF LICENSE
+ * This source file is released under EUPL 1.2 license by copyright holders.
+ * Please see LICENSE file for more specific information about terms.
  *
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
+
 namespace Interna\Core;
 
 if (!(\PHP_VERSION_ID >= 70200)) {
@@ -82,7 +84,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         \define('ETC', APP.DS.'etc');
         \define('CODE', APP.DS.'code');
         \define('I18N', APP.DS.'locale');
-        \define('MODULES', ETC.DS.'modules');
+        \define('MODULES', ETC.DS.'Modules');
         \define('VARDIR', BASE.DS.'var');
         \define('CACHE', VARDIR.DS.'cache');
         \define('LOG', VARDIR.DS.'log');
@@ -91,7 +93,6 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         require CODE.DS.'Interna'.DS.'Core'.DS.'Autoloader.php';
         include BASE.DS.'vendor'.DS.'autoload.php';
     }
-
 
     private function construct(): void
     {
@@ -114,7 +115,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
 
     private function loadModuleConfig(): void
     {
-        // Load etc/modules/*.xml
+        // Load etc/Modules/*.xml
         $files = \glob(MODULES.DS.'*.xml');
         foreach ($files as $file) {
             $this->localConfig->addXml($file);
@@ -124,7 +125,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
 
     private function handleModuleConfig(): void
     {
-        $conf = $this->localConfig->export('modules');
+        $conf = $this->localConfig->export('Modules');
         $autoload = [];
         foreach ($conf as $name => $values) {
             $modName = \str_replace('_', DS, $name);
@@ -164,8 +165,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
     private function registerCommandBus(): void
     {
         $commandBus = $this->localDI->get('config')->command_bus ?? null;
-        if ($commandBus !== null)
-        {
+        if (null !== $commandBus) {
             $this->localDI->set('bus', function () use ($commandBus): CommandBusInterface {
                 return new CommandBus(
                     new ConfigLocator($commandBus)
@@ -194,8 +194,5 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         }
     }
 }
-
-
-
 
 // then fetch and close the statement

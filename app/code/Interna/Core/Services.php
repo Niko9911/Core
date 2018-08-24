@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Interna — Club Management — NOTICE OF LICENSE
- * This source file is released under commercial license by Iron Lions.
+ * Interna Core — PHP Framework on Phalcon — NOTICE OF LICENSE
+ * This source file is released under EUPL 1.2 license by copyright holders.
+ * Please see LICENSE file for more specific information about terms.
  *
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
@@ -27,18 +28,18 @@ final class Services extends Component
     public static function config(array $config, bool $merge = false, ?Di $di = null): void
     {
         if (self::$configLoaded && $merge) {
-            /** @var \Phalcon\Config $config */
-            if ($di !== null)
-            {
+            /* @var \Phalcon\Config $config */
+            if (null !== $di) {
                 $config = $di->get('config');
             } else {
                 $config = (new self())->getDI()->get('config');
             }
             $config->merge($config);
+
             return;
         }
 
-        if ($di !== null) {
+        if (null !== $di) {
             $di->set('config', function () use ($config) {
                 return new \Phalcon\Config($config);
             });
@@ -73,17 +74,17 @@ final class Services extends Component
      *    'charset'     => 'UTF8',
      *  ].
      *
-     * @param array $options
+     * @param array   $options
      * @param null|Di $di
      */
     public static function db(array $options, ?Di $di = null): void
     {
         // Setup database adapter.
-        if ($di !== null)
-        {
+        if (null !== $di) {
             $di->set('db', function () use ($options) {
                 return Factory::load($options);
             });
+
             return;
         }
         (new self())->getDI()->set('db', function () use ($options): AdapterInterface {

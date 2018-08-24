@@ -11,14 +11,8 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
 
-namespace Interna\Core\Tests\Unit\CommandBus\Helpers;
+namespace Interna\Core\Exception;
 
-final class Dependency
+final class UnhandledNotFoundException extends Exception
 {
-    public const STRING = 'abc';
-
-    public function getString(): string
-    {
-        return self::STRING;
-    }
 }
