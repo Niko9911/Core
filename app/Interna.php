@@ -197,7 +197,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
             $modName = \str_replace('_', DS, $name);
 
             // Check if Module is not enabled.
-            if (true === (bool)$values['active']) {   // Check if module requires prefix to namespace.
+            if ('true' === \mb_strtolower($values['active'])) {   // Check if module requires prefix to namespace.
                 if (isset($values['@attributes']['prefix'])) { // With Prefix.
                     $autoload[$values['@attributes']['prefix'].
                     \str_replace('_', '\\', $name)] = CODE.DS.$modName;
