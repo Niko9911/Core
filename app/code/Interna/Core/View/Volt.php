@@ -37,7 +37,7 @@ final class Volt extends Component
                     'compiledPath'      => CACHE.DS,
                     'compiledSeparator' => '_',
                     'compiledExtension' => '.voltc',
-                    'compileAlways'     => \index::isDebug(),
+                    'compileAlways'     => \Interna::isDebug(),
                     'prefix'            => 'volt-',
                     'autoescape'        => true,
                 ], \array_map(function ($value) {

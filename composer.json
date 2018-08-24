@@ -22,6 +22,8 @@
     },
     "require": {
         "filp/whoops": "^2.2",
-        "phalcon/incubator": "^3.4"
+        "phalcon/incubator": "^3.4",
+        "ext-json": "*",
+        "ext-simplexml": "*"
     }
 }
