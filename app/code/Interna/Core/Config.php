@@ -79,8 +79,7 @@ final class Config
      */
     public function export(?string $key = null): ?array
     {
-        if (null !== $key && !isset($this->data[$key]))
-        {
+        if (null !== $key && !isset($this->data[$key])) {
             return null;
         }
 

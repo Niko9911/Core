@@ -24,12 +24,6 @@ if (!\extension_loaded('phalcon')
     throw new \RuntimeException('Phalcon is required extension. (At least version 3.4.0).');
 }
 
-use Interna\Core\CommandBus\CommandBus;
-use Interna\Core\CommandBus\CommandBusInterface;
-use Interna\Core\CommandBus\Locator\Handler\ConfigLocator;
-use Phalcon\Di;
-use PHPUnit\Framework\IncompleteTestError;
-
 abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
 {
     /**
@@ -41,8 +35,8 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
      */
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
-        chdir(\dirname(__DIR__, 3));
-        require_once \dirname(__DIR__, 3).DIRECTORY_SEPARATOR.'Interna.php';
+        \chdir(\dirname(__DIR__, 3));
+        require_once \dirname(__DIR__, 3).\DIRECTORY_SEPARATOR.'Interna.php';
         parent::__construct($name, $data, $dataName);
         $app = new \Interna(false, true, 9, true);
         $this->setUp();

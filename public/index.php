@@ -40,10 +40,9 @@ final class index extends \Phalcon\Mvc\User\Component
      */
     private const LOG_LEVEL = 7;
 
-
     public function __construct()
     {
-        require dirname(__DIR__).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Interna.php';
+        require \dirname(__DIR__).\DIRECTORY_SEPARATOR.'app'.\DIRECTORY_SEPARATOR.'Interna.php';
         new Interna(self::CACHE, self::DEBUG, self::LOG_LEVEL);
     }
 }

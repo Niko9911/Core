@@ -1,10 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Interna Core — PHP Framework on Phalcon — NOTICE OF LICENSE
+ * This source file is released under EUPL 1.2 license by copyright holders.
+ * Please see LICENSE file for more specific information about terms.
+ *
+ * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
+ * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
+ */
 final class Interna extends \Phalcon\Mvc\User\Component
 {
     private static $USE_CACHE = false;
     private static $DEBUG = true;
-    private static $UNIT_TEST = false;
+    private static $CLI = false;
 
     /**
      * SPECIAL:     9 [NO USE]
@@ -31,16 +41,15 @@ final class Interna extends \Phalcon\Mvc\User\Component
     /** @var Phalcon\Mvc\Application */
     private $application;
 
-    public function __construct(bool $cacheXML = false, bool $debug = false, int $logLevel = 5, bool $unitTest = false)
+    public function __construct(bool $cacheXML = false, bool $debug = false, int $logLevel = 5, bool $cli = false)
     {
         self::$USE_CACHE = $cacheXML;
         self::$DEBUG = $debug;
         self::$LOG_LEVEL = $logLevel;
-        self::$UNIT_TEST = $unitTest;
+        self::$CLI = $cli;
 
         $this->xdebug();
-        if (!self::$unitTestSetup)
-        {
+        if (!self::$unitTestSetup) {
             $this->define();
             $this->loadFiles();
         }
@@ -63,12 +72,10 @@ final class Interna extends \Phalcon\Mvc\User\Component
             $this->registerModules();
             $this->registerRoutes();
             $this->registerCommandBus();
-            if (self::$USE_CACHE)
-            {
+            if (self::$USE_CACHE) {
                 $this->cacheConfigs();
             }
-            if (!self::$UNIT_TEST)
-            {
+            if (!self::$CLI) {
                 $this->run();
             } else {
                 self::$unitTestSetup = true;
@@ -147,7 +154,8 @@ final class Interna extends \Phalcon\Mvc\User\Component
         \define('LOG', VARDIR.DS.'log');
     }
 
-    private function loadFiles(): void {
+    private function loadFiles(): void
+    {
         /** @noinspection PhpIncludeInspection */
         require CODE.DS.'Interna'.DS.'Core'.DS.'Config.php';
         /** @noinspection PhpIncludeInspection */
@@ -204,6 +212,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
                 } else { // Without Prefix.
                     $autoload[\str_replace('_', '\\', $name)] = CODE.DS.$modName;
                 }
+                $dbMigrationPaths = CODE.DS.$modName;
                 if (isset($values['@attributes']['type']) && 'module' === \mb_strtolower($values['@attributes']['type'])) {
                     $register['module'][$name] = CODE.DS.$modName;
                     if (!\file_exists($register['module'][$name])) {
@@ -300,8 +309,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function registerCommandBus(): void
     {
-        if (!isset($this->di->get('config')->command_bus))
-        {
+        if (!isset($this->di->get('config')->command_bus)) {
             return;
         }
         $commandBus = $this->di->get('config')->command_bus;
