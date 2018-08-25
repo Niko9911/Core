@@ -171,7 +171,12 @@ final class Interna extends \Phalcon\Mvc\User\Component
         $this->localDI->set('log', function () {
             $logger = new Phalcon\Logger\Multiple();
             $logger->setLogLevel(self::$LOG_LEVEL);
-            $logger->push(new \Phalcon\Logger\Adapter\File(LOG.DS.'common.log'));
+            if (self::$CLI) {
+                $logger->push(new \Phalcon\Logger\Adapter\File(LOG.DS.'cli.log'));
+            } else {
+                $logger->push(new \Phalcon\Logger\Adapter\File(LOG.DS.'common.log'));
+
+            }
 
             return $logger;
         });
@@ -212,7 +217,6 @@ final class Interna extends \Phalcon\Mvc\User\Component
                 } else { // Without Prefix.
                     $autoload[\str_replace('_', '\\', $name)] = CODE.DS.$modName;
                 }
-                $dbMigrationPaths = CODE.DS.$modName;
                 if (isset($values['@attributes']['type']) && 'module' === \mb_strtolower($values['@attributes']['type'])) {
                     $register['module'][$name] = CODE.DS.$modName;
                     if (!\file_exists($register['module'][$name])) {
