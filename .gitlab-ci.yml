@@ -27,4 +27,4 @@ before_script:
 php:
   stage: test
   script:
-  - vendor/bin/phpunit --configuration ./phpunit.xml --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never
