@@ -140,7 +140,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
     {
         // Tells it's ran via index.php correctly.
         \define('RUNTIME', true);
-        \define('DS', \DIRECTORY_SEPARATOR);
+        \defined('DS') ?: \define('DS', \DIRECTORY_SEPARATOR);
 
         // Define some absolute path constants.
         \define('BASE', \dirname(\getcwd()));
