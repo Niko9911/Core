@@ -79,6 +79,14 @@ final class Services extends Component
      */
     public static function db(array $options, ?Di $di = null): void
     {
+        $options['adapter'] = \is_object($options['adapter']) ? null : $options['adapter'];
+        $options['host'] = \is_object($options['host']) ? null : $options['host'];
+        $options['username'] = \is_object($options['username']) ? null : $options['username'];
+        $options['password'] = \is_object($options['password']) ? null : $options['password'];
+        $options['port'] = \is_object($options['port']) ? '3306' : $options['port'];
+        $options['dbname'] = \is_object($options['dbname']) ? null : $options['dbname'];
+        $options['charset'] = \is_object($options['charset']) ? 'UTF8' : $options['charset'];
+
         // Setup database adapter.
         if (null !== $di) {
             $di->set('db', function () use ($options) {
