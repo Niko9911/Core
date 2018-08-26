@@ -38,7 +38,7 @@ abstract class UnitTestCase extends \Phalcon\Test\PHPUnit\UnitTestCase
         \chdir(\dirname(__DIR__, 3));
         require_once \dirname(__DIR__, 3).\DIRECTORY_SEPARATOR.'Interna.php';
         parent::__construct($name, $data, $dataName);
-        $app = new \Interna(false, true, 9, true);
+        new \Interna(false, true, 9, true);
         $this->setUp();
     }
 }
