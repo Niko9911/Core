@@ -17,6 +17,10 @@ variables:
 cache:
   paths:
   - vendor/
+  
+artifacts:
+    paths:
+    - public
 
 before_script:
   - bin/ci
@@ -27,4 +31,4 @@ before_script:
 php:
   stage: test
   script:
-  - vendor/bin/phpunit --coverage-text --colors=never
+  - vendor/bin/phpunit --coverage-text --colors=never --coverage-html ./public

@@ -43,8 +43,13 @@
             <exclude>
                 <!-- Common excludes -->
                 <directory suffix="Controller.php">app/code/*/*/Controllers</directory>
+                <directory suffix=".php">app/code/*/*/Modules</directory>                
+                <directory suffix=".php">app/code/*/*/Routes</directory>
+                <directory suffix=".php">app/code/*/*/Setup</directory>   
+                <directory suffix=".php">app/code/*/*/Views</directory>
                 <directory suffix=".php">app/code/*/*/etc</directory>
                 <directory suffix=".php">app/code/*/*/Tests</directory>
+                <directory suffix=".php">app/code/Example</directory>
 
                 <!-- Common Excluded Files -->
                 <file>public/index.php</file>
