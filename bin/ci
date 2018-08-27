@@ -48,7 +48,7 @@ apt-get update && apt-get install -yq --no-install-recommends \
     && unzip cphalcon-master.zip \
  	&& cd cphalcon-master/build \
  	&& ./install \
-	&& echo 'extension="phalcon.so"' > /usr/local/etc/php/conf.d/phalcon.ini
+	&& echo 'extension="phalcon.so"' > /usr/local/etc/php/conf.d/phalcon.ini \
     && rm -rf cphalcon-master.zip cphalcon-master
 apt-get autoremove -y && apt-get clean -y
 wget https://phar.phpunit.de/phpunit.phar \
