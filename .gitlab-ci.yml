@@ -31,4 +31,4 @@ php:
     paths:
     - public
   script:
-  - vendor/bin/phpunit --coverage-text --colors=never --coverage-html ./public
+  - vendor/bin/phpunit --coverage-text --colors=never --coverage-html ../public

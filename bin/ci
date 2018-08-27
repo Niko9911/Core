@@ -44,17 +44,15 @@ apt-get update && apt-get install -yq --no-install-recommends \
     && pecl install redis-4.0.1 \
     && pecl install xdebug-2.6.0 \
     && docker-php-ext-enable redis xdebug
-curl -LJO https://github.com/phalcon/cphalcon/archive/master.zip \
+  curl -LJO https://github.com/phalcon/cphalcon/archive/master.zip \
     && unzip cphalcon-master.zip \
  	&& cd cphalcon-master/build \
  	&& ./install \
 	&& echo 'extension="phalcon.so"' > /usr/local/etc/php/conf.d/phalcon.ini
+    && rm -rf cphalcon-master.zip cphalcon-master
 apt-get autoremove -y && apt-get clean -y
 wget https://phar.phpunit.de/phpunit.phar \
     && chmod +x phpunit.phar \
     && mv phpunit.phar /usr/local/bin/phpunit
-wget https://raw.githubusercontent.com/colinmollenhour/modman/master/modman \
-    && chmod +x modman \
-    && mv modman /usr/local/bin/modman
 curl -sS https://getcomposer.org/installer -o composer-setup.php \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
