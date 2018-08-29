@@ -27,14 +27,6 @@ final class ExampleRouter extends AbstractRouter
      */
     protected function setModule(): string
     {
-        return 'Example_Welcome_ExampleModule';
-    }
-
-    /**
-     * @return string Namespace to controllers. Example: Example\Welcome\Controllers
-     */
-    protected function setNamespace(): string
-    {
-        return 'Example\Welcome\Controllers';
+        return 'ExampleModule';
     }
 }

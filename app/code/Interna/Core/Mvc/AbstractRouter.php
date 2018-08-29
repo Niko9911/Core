@@ -13,16 +13,39 @@ declare(strict_types=1);
 
 namespace Interna\Core\Mvc;
 
+use Interna\Core\Exception\NamespaceParseException;
 use Phalcon\Mvc\Router\Group;
 
 abstract class AbstractRouter extends Group
 {
+    private $namespaceCache = [];
+
+    /** @var bool If you want extend module */
+    protected $fullModulePath = false;
+
+    /** @var string If you want extend module */
+    protected $controllersNamespace = '';
+
+    /**
+     * AbstractRouter constructor.
+     *
+     * @param null $paths
+     *
+     * @throws NamespaceParseException
+     */
     public function __construct($paths = null)
     {
+        $namespace = $this->getVendorAndModule();
+
+        if (false === $this->fullModulePath) {
+            $module = $namespace['vendor'].'_'.$namespace['module'].'_';
+        }
+
         $this->setPaths(
             [
-                'module'    => $this->setModule(),
-                'namespace' => $this->setNamespace(),
+                'module'    => $this->fullModulePath ? $this->setModule() : ($module ?? '').$this->setModule(),
+                'namespace' => '' === $this->controllersNamespace ? $namespace['vendor'].'\\'.$namespace['module'].
+                '\\Controllers' : $this->controllersNamespace,
             ]
         );
         parent::__construct($paths);
@@ -33,10 +56,31 @@ abstract class AbstractRouter extends Group
      */
     abstract protected function setModule(): string;
 
-    /**
-     * @return string Namespace to controllers. Example: Example\Welcome\Controllers
-     */
-    abstract protected function setNamespace(): string;
-
     abstract public function initialize(): void;
+
+    private function getChildNamespace(int $key): ?string
+    {
+        if (empty($this->namespaceCache)) {
+            $this->namespaceCache = \explode('\\', static::class);
+        }
+
+        return $this->namespaceCache[$key] ?? null;
+    }
+
+    /**
+     * @return array
+     *
+     * @throws NamespaceParseException
+     */
+    private function getVendorAndModule(): array
+    {
+        $vendor = $this->getChildNamespace(0);
+        $module = $this->getChildNamespace(1);
+        if (null === $module || null === $vendor) {
+            throw new NamespaceParseException('Parsing '.static::class.
+                ' namespace for registering volt view service automatically failed.');
+        }
+
+        return ['vendor' => $vendor, 'module' => $module];
+    }
 }
