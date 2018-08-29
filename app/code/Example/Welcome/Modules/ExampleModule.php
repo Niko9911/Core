@@ -13,37 +13,25 @@ declare(strict_types=1);
 
 namespace Example\Welcome\Modules;
 
-use Interna\Core\View\Volt;
-use Phalcon\Mvc\ModuleDefinitionInterface;
+use Interna\Core\Mvc\AbstractModule;
 
-final class ExampleModule implements ModuleDefinitionInterface
+final class ExampleModule extends AbstractModule
 {
-    /**
-     * Registers an autoloader related to the module.
-     *
-     * @param \Phalcon\DiInterface $dependencyInjector
-     */
-    public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector = null): void
-    {
-    }
-
     /**
      * Registers services related to the module.
      *
      * @param \Phalcon\DiInterface $dependencyInjector
+     *
+     * @throws \Interna\Core\Exception\NamespaceParseException
      */
     public function registerServices(\Phalcon\DiInterface $dependencyInjector): void
     {
         // Setup view Service.
         /* @noinspection PhpUndefinedConstantInspection */
-        $dependencyInjector->set('view', Volt::setup(EXAMPLE_WELCOME.DS.'Views'), true);
+        //$dependencyInjector->set('view', Volt::setup(EXAMPLE_WELCOME.DS.'Views'), true);
+        $this->registerViewVolt($dependencyInjector);
 
         // Set dispatcher service use a default namespace.
-        $dependencyInjector->set('dispatcher', function () {
-            $dispatcher = new \Phalcon\Mvc\Dispatcher();
-            $dispatcher->setDefaultNamespace('Example\Welcome\Controllers');
-
-            return $dispatcher;
-        });
+        $this->registerDispatcher($dependencyInjector);
     }
 }
