@@ -41,6 +41,9 @@ final class Interna extends \Phalcon\Mvc\User\Component
     /** @var Phalcon\Mvc\Application */
     private $application;
 
+    /** @var \Interna\Core\Events\Core */
+    private $applicationEventsManager;
+
     public function __construct(bool $cacheXML = false, bool $debug = false, int $logLevel = 5, bool $cli = false)
     {
         self::$USE_CACHE = $cacheXML;
@@ -68,6 +71,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
                 $this->handleModuleConfig();
             }
             $this->warmUp();
+            $this->registerEventsManager();
             $this->registerDefines();
             $this->registerModules();
             $this->registerRoutes();
@@ -80,6 +84,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
             } else {
                 self::$unitTestSetup = true;
             }
+            $this->applicationEventsManager->done();
         } catch (\Throwable $e) {
             /* @noinspection DegradedSwitchInspection */
             switch ($e) {
@@ -167,6 +172,9 @@ final class Interna extends \Phalcon\Mvc\User\Component
     private function construct(): void
     {
         $this->localDI = new Phalcon\DI\FactoryDefault();
+        $this->localDI->set('coreEvent', function () {
+
+        });
         $this->config = new Interna\Core\Config(CODE.DS.'System'.DS.'Phalcon');
         $this->localDI->set('log', function () {
             $logger = new Phalcon\Logger\Multiple();
@@ -249,12 +257,36 @@ final class Interna extends \Phalcon\Mvc\User\Component
         \Interna\Core\Services::config($this->config->export());
         \Interna\Core\Services::url();
         \Interna\Core\Services::db((array)$this->localDI->get('config')->database->connection);
+        \Interna\Core\Services::session((array)$this->localDI->get('config')->session);
         \Interna\Core\Checks::isWritableArray([CACHE, LOG]);
         $this->application = new Phalcon\Mvc\Application($this->localDI);
     }
 
+    private function registerEventsManager(): void
+    {
+        $this->applicationEventsManager = new \Interna\Core\Events\Core();
+        $this->applicationEventsManager->setEventsManager($this->localDI->get('eventsManager'));
+        $coreEventHandlers = $this->di->get('config')->events->core ?? null;
+
+        if (is_iterable($coreEventHandlers))
+        {
+            foreach ($coreEventHandlers as $coreEventHandler)
+            {
+                /** @noinspection RepetitiveMethodCallsInspection */
+                $this->applicationEventsManager
+                    ->getEventsManager()
+                    ->attach('core', new $coreEventHandler());
+            }
+        } elseif ($coreEventHandlers !== null) {
+            $this->applicationEventsManager
+                ->getEventsManager()
+                ->attach('core', new $coreEventHandlers());
+        }
+    }
+
     private function registerModules(): void
     {
+        $this->applicationEventsManager->registerModules();
         $mods = $this->di->get('config')->register->module;
         if (null !== $mods) {
             foreach ($this->di->get('config')->register->module as $name => $path) {
@@ -284,6 +316,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function registerRoutes(): void
     {
+        $this->applicationEventsManager->registerRoutes();
         $mods = $this->di->get('config')->register->module;
         if (null !== $mods) {
             $register = null;
@@ -313,6 +346,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function registerCommandBus(): void
     {
+        $this->applicationEventsManager->registerCommandBus();
         if (!isset($this->di->get('config')->command_bus)) {
             return;
         }
@@ -327,6 +361,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function registerDefines(): void
     {
+        $this->applicationEventsManager->registerDefines();
         $defines = $this->di->get('config')->define;
         unset($defines->comment);
         foreach ($defines as $key => $value) {
@@ -340,6 +375,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function handleException(Throwable $throwable): void
     {
+        #$this->applicationEventsManager->handleException();
         /** @var \Phalcon\Logger\Multiple $log */
         $log = $this->localDI->get('log');
         $log->critical((string)$throwable);
@@ -352,6 +388,7 @@ final class Interna extends \Phalcon\Mvc\User\Component
 
     private function run(): void
     {
+        $this->applicationEventsManager->run();
         echo $this->application->handle()->getContent();
     }
 

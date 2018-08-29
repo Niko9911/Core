@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Interna\Core;
 
+use Interna\Core\Exception\InvalidConfigurationException;
+use Interna\Core\Services\Session;
 use Phalcon\Db\Adapter\Pdo\Factory;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Di;
@@ -32,7 +34,7 @@ final class Services extends Component
             if (null !== $di) {
                 $config = $di->get('config');
             } else {
-                $config = (new self())->getDI()->get('config');
+                $config = Di::getDefault()->get('config');
             }
             $config->merge($config);
 
@@ -44,7 +46,7 @@ final class Services extends Component
                 return new \Phalcon\Config($config);
             });
         } else {
-            (new self())->getDI()->set('config', function () use ($config) {
+            Di::getDefault()->set('config', function () use ($config) {
                 return new \Phalcon\Config($config);
             });
         }
@@ -53,7 +55,7 @@ final class Services extends Component
     public static function url(?string $basePath = null, ?string $baseUri = null, ?string $staticBaseUri = null): void
     {
         //The URL component is used to generate all kind of urls in the application
-        (new self())->getDI()->setShared('url', function () use ($basePath, $baseUri, $staticBaseUri): UrlResolver {
+        Di::getDefault()->setShared('url', function () use ($basePath, $baseUri, $staticBaseUri): UrlResolver {
             $url = new UrlResolver();
             null === $basePath ?: $url->setBasePath($basePath);
             null === $baseUri ?: $url->setBaseUri($baseUri);
@@ -95,7 +97,7 @@ final class Services extends Component
 
             return;
         }
-        (new self())->getDI()->set('db', function () use ($options): AdapterInterface {
+        Di::getDefault()->set('db', function () use ($options): AdapterInterface {
             return Factory::load($options);
         });
     }
@@ -103,7 +105,7 @@ final class Services extends Component
     public static function router(?string $defaultModule = null, ?array $subRouters = null, ?array $notFound = null, bool $defaultRoutes = false, bool $removeExtraSlashes = true): void
     {
         // Load router service.
-        (new self())->getDI()->set('router', function () use ($defaultModule,
+        Di::getDefault()->set('router', function () use ($defaultModule,
             $defaultRoutes, $subRouters, $removeExtraSlashes, $notFound): RouterInterface {
             // Initialize new router without default routes.
             $router = new Router($defaultRoutes);
@@ -125,5 +127,22 @@ final class Services extends Component
             // Return routes.
             return $router;
         });
+    }
+
+    public static function session(array $param): void
+    {
+        $active = Di::getDefault()->get('config')->session->active;
+        $active = 'false' === $active ? false : (bool)$active;
+        if ($active) {
+            Di::getDefault()->set('session', function () use ($param): void {
+                try {
+                    Session::$param['adapter']($param);
+                } catch (\Throwable $exception) {
+                    throw new InvalidConfigurationException(
+                        'Session adapter '.$param['adapter'].' is not supported!'
+                    );
+                }
+            });
+        }
     }
 }
