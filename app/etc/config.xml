@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="">
+        xsi:noNamespaceSchemaLocation="templates/config.xsd">
     <database>
         <connection>
-            <host></host>
-            <port></port>
+            <host>db</host>
+            <port>3306</port>
             <username></username>
             <password></password>
             <dbname></dbname>
@@ -14,10 +14,18 @@
     </database>
     <cache>
         <connection>
-            <host></host>
-            <port></port>
-            <dbname></dbname>
+            <host>cache</host>
+            <port>6379</port>
+            <dbname>0</dbname>
             <password></password>
         </connection>
     </cache>
+    <session>
+        <name>Interna</name>
+        <redis_lifetime>3600</redis_lifetime>
+        <redis_dbname>1</redis_dbname>
+        <redis_persistent>0</redis_persistent>
+        <adapter>redis</adapter>
+        <active>1</active>
+    </session>
 </config>
