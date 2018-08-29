@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
+
 require __DIR__.\DIRECTORY_SEPARATOR.'app'.\DIRECTORY_SEPARATOR.'Interna.php';
 \chdir(__DIR__.\DIRECTORY_SEPARATOR.'public');
 $app = new Interna(false, true, 7, true);
