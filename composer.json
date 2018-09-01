@@ -1,14 +1,15 @@
 {
     "name": "interna/core",
     "description": "Interna — Club Management",
-    "license": "AGPLv3",
+    "license": "EUPL-1.2",
     "type": "project",
-    "homepage": "https://ironlions.fi/",
+    "homepage": "https://gitlab.com/IronLions/Interna/Core",
     "authors": [
         {
             "name": "Niko Granö",
-            "email": "niko@ironlions.fi",
-            "homepage": "https://ironlions.fi"
+            "email": "niko@xn--gran-8qa.fi",
+            "homepage": "https://xn--gran-8qa.fi",
+            "role": "Maintainer"
         }
     ],
     "extra": {
@@ -21,10 +22,7 @@
         "friendsofphp/php-cs-fixer": "^2.11"
     },
     "require": {
-        "filp/whoops": "^2.2",
-        "phalcon/incubator": "^3.4",
-        "ext-json": "*",
-        "ext-simplexml": "*",
-        "robmorgan/phinx": "^0.10.6"
+      "php": "^7.2",
+      "interna/core-lib": "dev-master"
     }
 }

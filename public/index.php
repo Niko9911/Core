@@ -42,9 +42,8 @@ final class index extends \Phalcon\Mvc\User\Component
 
     public function __construct()
     {
-        require \dirname(__DIR__).\DIRECTORY_SEPARATOR.'app'.\DIRECTORY_SEPARATOR.'Interna.php';
+        require \dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
         new Interna(self::CACHE, self::DEBUG, self::LOG_LEVEL);
     }
 }
-
 new index();
