@@ -10,16 +10,6 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) Niko Granö (https://granö.fi)
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
-if (!(\PHP_VERSION_ID >= 70200)) {
-    echo 'PHP 7.2 or greater is required!';
-    throw new RuntimeException('PHP 7.2 or greater is required!');
-}
-
-if (!\extension_loaded('phalcon')
-    || !\version_compare(\Phalcon\Version::get(), '3.4.0', '>=')) {
-    echo 'Phalcon is required extension. (At least version 3.4.0).';
-    throw new RuntimeException('Phalcon is required extension. (At least version 3.4.0).');
-}
 
 final class index extends \Phalcon\Mvc\User\Component
 {
@@ -42,6 +32,7 @@ final class index extends \Phalcon\Mvc\User\Component
 
     public function __construct()
     {
+        chdir(dirname(__DIR__));
         require \dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
         new Interna(self::CACHE, self::DEBUG, self::LOG_LEVEL);
     }

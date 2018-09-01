@@ -1,6 +1,6 @@
 {
     "name": "interna/core",
-    "description": "Interna — Club Management",
+    "description": "Interna — CQRS Framework",
     "license": "EUPL-1.2",
     "type": "project",
     "homepage": "https://gitlab.com/IronLions/Interna/Core",
@@ -23,6 +23,7 @@
     },
     "require": {
       "php": "^7.2",
-      "interna/core-lib": "dev-master"
+      "interna/core-lib": "^1",
+      "ext-json": "*"
     }
 }

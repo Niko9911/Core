@@ -11,11 +11,17 @@ declare(strict_types=1);
  * @copyright 2017-2018 (c) IronLions (https://ironlions.fi)
  */
 
-require __DIR__.\DIRECTORY_SEPARATOR.'app'.\DIRECTORY_SEPARATOR.'Interna.php';
+require __DIR__.\DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'autoload.php';
 \chdir(__DIR__.\DIRECTORY_SEPARATOR.'public');
 $app = new Interna(false, true, 7, true);
 $config = $app->di->get('config');
+try {
 $connection = \json_decode(\json_encode($config->database->connection), true);
+} catch (Throwable $exception)
+{
+    /** @noinspection PhpUnhandledExceptionInspection */
+    throw new \Interna\Core\Exception\InvalidConfigurationException('Database Configuration is invalid!');
+}
 
 return \array_replace(
     [

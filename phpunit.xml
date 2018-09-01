@@ -22,7 +22,7 @@
          timeoutForMediumTests="30"
          timeoutForLargeTests="60"
          verbose="true"
-         bootstrap="app/code/Interna/Core/UnitTestCase.php"
+         bootstrap="vendor/interna/core-lib/src/Interna/Core/Tests/AbstractUnitTest.php"
 >
 
     <php>
@@ -32,7 +32,7 @@
 
     <testsuites>
         <testsuite name="Unit_Tests">
-            <directory phpVersion="7.2.0" phpVersionOperator=">=" suffix="Test.php">app/code/Interna/*/Tests/Unit
+            <directory phpVersion="7.2.0" phpVersionOperator=">=" suffix="Test.php">app/code/*/*/Tests
             </directory>
         </testsuite>
     </testsuites>
@@ -49,16 +49,6 @@
                 <directory suffix=".php">app/code/*/*/Views</directory>
                 <directory suffix=".php">app/code/*/*/etc</directory>
                 <directory suffix=".php">app/code/*/*/Tests</directory>
-                <directory suffix=".php">app/code/Example</directory>
-
-                <!-- Common Excluded Files -->
-                <file>public/index.php</file>
-                <file>app/code/Interna/Core/UnitTestCase.php</file>
-                <file>app/code/Interna/Core/Autoloader.php</file>
-                <file>app/code/Interna/Core/Checks.php</file>
-                <file>app/code/Interna/Core/Request.php</file>
-                <file>app/code/Interna/Core/Services.php</file>
-                <file>app/code/Interna/Core/Config.php</file>
             </exclude>
         </whitelist>
     </filter>

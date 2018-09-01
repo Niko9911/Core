@@ -16,7 +16,7 @@ Documentation can be found from [online](https://gitlab.com/IronLions/Interna/Co
 Git for documentation is available [here](https://gitlab.com/IronLions/Interna/Core/wikis/git_access).
 
 # Security Vulnerabilities
-If you discover a security vulnerability within Laravel, please send
+If you discover a security vulnerability within any of Interna packages, please send
 an e-mail to support@ironlions.com. All security
 vulnerabilities will be promptly addressed.
 
