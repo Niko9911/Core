@@ -19,3 +19,5 @@ var/log/
 
 var/cache
 !var/cache/.gitkeep
+
+app/code/Interna
